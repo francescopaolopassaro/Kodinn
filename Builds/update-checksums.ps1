@@ -19,5 +19,5 @@ $lines = foreach ($f in $files) {
 }
 
 $sumsFile = Join-Path $here "SHA256SUMS.txt"
-if ($lines) { $lines | Set-Content -Path $sumsFile -Encoding utf8 } else { Set-Content -Path $sumsFile -Value "" -Encoding utf8 }
+if ($lines) { [IO.File]::WriteAllLines($sumsFile, [string[]]$lines) } else { [IO.File]::WriteAllText($sumsFile, "") }
 Write-Host "SHA256SUMS.txt: $(@($lines).Count) file(s)"

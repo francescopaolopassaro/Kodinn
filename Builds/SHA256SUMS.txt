@@ -1,1 +1,4 @@
-﻿
+e6534b976c7a321f72aebf2210b46a3c538427a968978b0f7b00337da40500a6  windows/Kodinn-0.9.0-Beta-Setup.exe
+eac536a725d4ca77dddc08bacd9dc1633b2d81b6732c8bc9907cfd60ace3a655  windows/msix/Kodinn_0.9.0.0_x64.msix
+fb0fbe3a611822bbd84e6987eb7da59c81dcdaa5efe79a2391240bca8f478bbb  windows/msix/kodinn-selfsigned.cer
+d7ac7d18564e70ceb1d55afb304fbdd63433a219c1317890de177e27da2a8678  windows/msix/Microsoft.WindowsAppRuntime.2.msix
