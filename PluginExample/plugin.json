@@ -1,0 +1,16 @@
+{
+  "id": "kodinn.examples.calculator-timer",
+  "name": "Calculator & Timer",
+  "version": "1.0.0",
+  "author": "Kodinn",
+  "description": "Exact arithmetic for the agent (the calculate tool) and for you (/calc), focus timers with a notification when they end (/timer), and a dock panel with the history.",
+  "assembly": "PluginExample.dll",
+  "entryType": "PluginExample.CalculatorTimerPlugin",
+  "sdkVersion": "1.0.0",
+  "capabilities": [ "Tools", "Commands", "Panels", "Notifications", "Database" ],
+  "database": {
+    "collections": [
+      { "name": "history", "indexes": [ "at", "byAgent" ] }
+    ]
+  }
+}

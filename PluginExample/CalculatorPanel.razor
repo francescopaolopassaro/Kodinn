@@ -1,0 +1,76 @@
+@implements IDisposable
+@* Dock panel of the plugin. Kodinn renders it inside the chat dock and passes the
+   parameters given in PluginPanel.Parameters. It re-renders when the state changes. *@
+
+<div class="kp-calc">
+    @if (State.Timers.Count > 0)
+    {
+        <div class="kp-calc-title">@Texts.Timers</div>
+        @foreach (var t in State.Timers)
+        {
+            <div class="kp-calc-row">
+                <span>⏱️ @t.Label</span>
+                <span class="kp-calc-dim">@Remaining(t)</span>
+                <button class="kp-calc-btn" @onclick="() => State.StopTimer(t)">@Texts.Stop</button>
+            </div>
+        }
+    }
+
+    <div class="kp-calc-title">
+        @Texts.History
+        @if (State.History.Count > 0)
+        {
+            <button class="kp-calc-btn" @onclick="State.ClearHistory">@Texts.Clear</button>
+        }
+    </div>
+    @if (State.History.Count == 0)
+    {
+        <div class="kp-calc-dim">@Texts.HistoryEmpty</div>
+    }
+    @foreach (var h in State.History)
+    {
+        <div class="kp-calc-row">
+            <code>@h.Expression</code>
+            <strong>= @h.Result</strong>
+            @if (h.ByAgent) { <span class="kp-calc-tag">@Texts.ByAgent</span> }
+        </div>
+    }
+</div>
+
+<style>
+    .kp-calc { display: flex; flex-direction: column; gap: 6px; padding: 10px; font-size: 13px; }
+    .kp-calc-title { font-weight: 600; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .kp-calc-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .kp-calc-dim { opacity: .7; }
+    .kp-calc-tag { font-size: 11px; padding: 0 6px; border-radius: 8px; border: 1px solid currentColor; opacity: .7; }
+    .kp-calc-btn { font-size: 12px; padding: 2px 8px; border-radius: 6px; border: 1px solid currentColor; background: transparent; color: inherit; cursor: pointer; }
+</style>
+
+@code {
+    [Parameter] public CalculatorState State { get; set; } = null!;
+    [Parameter] public Texts Texts { get; set; } = null!;
+
+    private System.Threading.Timer? _tick;
+
+    protected override void OnInitialized()
+    {
+        State.Changed += OnChanged;
+        // the remaining time of the timers, once per second while the panel is open
+        _tick = new System.Threading.Timer(_ => { if (State.Timers.Count > 0) OnChanged(); }, null, 1000, 1000);
+    }
+
+    private void OnChanged() => _ = InvokeAsync(StateHasChanged);
+
+    private static string Remaining(RunningTimer t)
+    {
+        var left = t.EndsAt - DateTimeOffset.Now;
+        if (left < TimeSpan.Zero) left = TimeSpan.Zero;
+        return left.TotalHours >= 1 ? left.ToString(@"h\:mm\:ss") : left.ToString(@"mm\:ss");
+    }
+
+    public void Dispose()
+    {
+        State.Changed -= OnChanged;
+        _tick?.Dispose();
+    }
+}

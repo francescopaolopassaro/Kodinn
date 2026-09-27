@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.user
+*.kodinn-plugin
+# Installers in Builds/ ARE committed, through Git LFS (see .gitattributes).
+# The signing key never is: only the public .cer ships.
+*.pfx
+
+Builds/nuget/

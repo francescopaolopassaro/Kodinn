@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <!--
+    Example Kodinn plugin: "Calculator & Timer".
+    Build it, then run pack-plugin.ps1 to get PluginExample.kodinn-plugin,
+    which Kodinn installs from Settings > Plugins without restarting.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <!-- Kodinn loads the plugin's own assembly; its dependencies go next to it. -->
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      Private=false / ExcludeAssets=runtime: the SDK and the Blazor component
+      assemblies are Kodinn's own. Shipping a copy with the plugin would give
+      the plugin types Kodinn does not recognise.
+    -->
+    <ProjectReference Include="..\src\Kodinn.Sdk\Kodinn.Sdk.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="plugin.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

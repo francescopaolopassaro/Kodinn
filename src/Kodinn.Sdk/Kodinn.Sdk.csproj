@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The contract between Kodinn and its plugins: the only types a plugin
+    compiles against. Kodinn itself is closed source; everything a plugin can
+    see or call is declared here.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <Version>1.0.0</Version>
+    <PackageId>Kodinn.Sdk</PackageId>
+    <Authors>Passaro Francesco Paolo</Authors>
+    <Description>SDK for Kodinn plugins: tools for the agent, chat commands, dock panels, chat events, notifications, private storage and access to the configured model.</Description>
+    <PackageTags>kodinn;plugin;sdk;agent;blazor</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/francescopaolopassaro/Kodinn</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Panels are Blazor components: the component contract is shared with the host. -->
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
